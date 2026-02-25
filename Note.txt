@@ -1,0 +1,1 @@
+Database nya dari supabase, jadi sudah online tidak perlu DML .sql nya a
