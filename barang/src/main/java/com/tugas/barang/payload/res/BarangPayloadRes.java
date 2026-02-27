@@ -5,7 +5,13 @@ public class BarangPayloadRes {
     private String namaBarangRes;
     private int hargaBarangRes;
     private int stokBarangRes;
-
+    private String status;
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
     public int getIdBarangRes() {
         return idBarangRes;
     }

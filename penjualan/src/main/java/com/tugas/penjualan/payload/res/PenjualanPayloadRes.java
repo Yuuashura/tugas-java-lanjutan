@@ -2,72 +2,47 @@ package com.tugas.penjualan.payload.res;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PenjualanPayloadRes {
-    
-    @JsonProperty("idPenjualan")
     private int idPenjualanRes;
-    
-    @JsonProperty("idBarang")
     private int idBarangRes;
-    
-    @JsonProperty("jumlahBeli")
+    private String namaPembeliRes;
     private int jumlahBeliRes;
-
-    @JsonProperty("sisaStockSekarang")
-    private int sisaStockSekarangRes;
-
-    @JsonProperty("namaBarang")
-    private String namaBarangRes;
-
-    @JsonProperty("hargaBarang")
-    private int hargaBarangRes;
-
+    private int totalHargaRes;
+    private String tanggalPenjualanRes;
     public int getIdPenjualanRes() {
         return idPenjualanRes;
     }
-
     public void setIdPenjualanRes(int idPenjualanRes) {
         this.idPenjualanRes = idPenjualanRes;
     }
-
     public int getIdBarangRes() {
         return idBarangRes;
     }
-
     public void setIdBarangRes(int idBarangRes) {
         this.idBarangRes = idBarangRes;
     }
-
+    public String getNamaPembeliRes() {
+        return namaPembeliRes;
+    }
+    public void setNamaPembeliRes(String namaPembeliRes) {
+        this.namaPembeliRes = namaPembeliRes;
+    }
     public int getJumlahBeliRes() {
         return jumlahBeliRes;
     }
-
     public void setJumlahBeliRes(int jumlahBeliRes) {
         this.jumlahBeliRes = jumlahBeliRes;
     }
-
-    public int getSisaStockSekarangRes() {
-        return sisaStockSekarangRes;
+    public int getTotalHargaRes() {
+        return totalHargaRes;
+    }
+    public void setTotalHargaRes(int totalHargaRes) {
+        this.totalHargaRes = totalHargaRes;
+    }
+    public String getTanggalPenjualanRes() {
+        return tanggalPenjualanRes;
+    }
+    public void setTanggalPenjualanRes(String tanggalPenjualanRes) {
+        this.tanggalPenjualanRes = tanggalPenjualanRes;
     }
 
-    public void setSisaStockSekarangRes(int sisaStockSekarangRes) {
-        this.sisaStockSekarangRes = sisaStockSekarangRes;
-    }
-
-    public String getNamaBarangRes() {
-        return namaBarangRes;
-    }
-
-    public void setNamaBarangRes(String namaBarangRes) {
-        this.namaBarangRes = namaBarangRes;
-    }
-
-    public int getHargaBarangRes() {
-        return hargaBarangRes;
-    }
-
-    public void setHargaBarangRes(int hargaBarangRes) {
-        this.hargaBarangRes = hargaBarangRes;
-    }
-
-    
 }

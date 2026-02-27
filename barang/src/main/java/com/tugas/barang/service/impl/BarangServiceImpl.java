@@ -4,25 +4,23 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.tugas.barang.entity.BarangEntity;
-import com.tugas.barang.entity.PenjualanEntity;
 import com.tugas.barang.payload.req.BarangPayloadReq;
 import com.tugas.barang.payload.req.PenjualanPayloadReq;
 import com.tugas.barang.payload.res.BarangPayloadRes;
 import com.tugas.barang.payload.res.PenjualanPayloadRes;
 import com.tugas.barang.repository.BarangRepository;
-import com.tugas.barang.repository.PenjualanRepository;
 import com.tugas.barang.service.BarangService;
-
+ 
 @Service
 public class BarangServiceImpl implements BarangService {
 
     @Autowired
     private BarangRepository barangRepo;
 
-    @Autowired
-    private PenjualanRepository penjualanRepo;
+ 
 
     @Override
     public BarangPayloadRes getDataBarang(BarangPayloadReq payload) throws Exception {
@@ -37,6 +35,7 @@ public class BarangServiceImpl implements BarangService {
             } else {
                 System.out.println("Data ditemukan: " + ent.getNamaBarang());
                 res.setIdBarangRes(ent.getIdBarang());
+                res.setStatus("OK");
                 res.setNamaBarangRes(ent.getNamaBarang());
                 res.setHargaBarangRes(ent.getHargaBarang());
                 res.setStokBarangRes(ent.getStokBarang());
@@ -53,6 +52,7 @@ public class BarangServiceImpl implements BarangService {
             return barangRepo.findAll().stream().map(ent -> {
 
                 BarangPayloadRes res = new BarangPayloadRes();
+                res.setStatus("OK");
                 res.setIdBarangRes(ent.getIdBarang());
                 res.setNamaBarangRes(ent.getNamaBarang());
                 res.setHargaBarangRes(ent.getHargaBarang());
@@ -66,77 +66,65 @@ public class BarangServiceImpl implements BarangService {
 
     @Override
     public BarangPayloadRes cekStock(PenjualanPayloadReq payload) throws Exception {
-        BarangPayloadRes res = new BarangPayloadRes();
         try {
-            BarangEntity ent = barangRepo.findById(payload.getIdPenjualanReq()).orElseThrow(() -> new Exception("Pusaka Kerajaan tidak ditemukan!"));
-            int totalLaku = penjualanRepo.getTotalTerjualByIdBarang(ent.getIdBarang());
-            int sisaStokAsli = ent.getStokBarang() - totalLaku;
-            res.setIdBarangRes(ent.getIdBarang());
-            res.setNamaBarangRes(ent.getNamaBarang());
-            res.setHargaBarangRes(ent.getHargaBarang());
-            res.setStokBarangRes(sisaStokAsli);
-
+            BarangPayloadRes res = new BarangPayloadRes();
+            BarangEntity ent = barangRepo.findById(payload.getIdPenjualanReq())
+                    .orElseThrow(() -> new Exception("Data tidak ditemukan"));
+                    res.setIdBarangRes(ent.getIdBarang());
+                    res.setNamaBarangRes(ent.getNamaBarang());
+                    res.setHargaBarangRes(ent.getHargaBarang());
+                    res.setStokBarangRes(ent.getStokBarang());
+                    res.setStatus("OK");
+            return res;
         } catch (Exception e) {
             throw new Exception("Error: " + e.getMessage());
         }
-        return res;
     }
 
-    @Override
-    public BarangPayloadRes cekStockByIdPenjualan(int idPenjualan) throws Exception {
-        BarangPayloadRes res = new BarangPayloadRes();
-        try {
-            PenjualanEntity penjualan = penjualanRepo.findById(idPenjualan)
-                    .orElseThrow(() -> new Exception("Data Transaksi Penjualan tidak ditemukan!"));
 
-            BarangEntity ent = penjualan.getBarang();
-            if (ent == null) {
-                throw new Exception("Barang tidak ditemukan pada transaksi ini!");
+    @Override
+    public BarangPayloadRes updateStock(PenjualanPayloadReq payload) throws Exception {
+        try {
+            System.out.println("id dari service : " + payload.getIdBarangReq());
+            System.out.println("JumlahBeli dari service : " + payload.getJumlahBeliReq());
+            BarangEntity data = barangRepo.findById(payload.getIdBarangReq()).orElseThrow(()-> new Exception("Data Tidak Ditemukan"));
+            if (data == null) {
+                throw new Exception("Data Tidak Ditemukan");
             }
-            int totalLaku = penjualanRepo.getTotalTerjualByIdBarang(ent.getIdBarang());
-            int sisaStokAsli = ent.getStokBarang() - totalLaku;
-            res.setIdBarangRes(ent.getIdBarang());
-            res.setNamaBarangRes(ent.getNamaBarang());
-            res.setHargaBarangRes(ent.getHargaBarang());
-            res.setStokBarangRes(sisaStokAsli);
+            int stockSekarang = data.getStokBarang();
+            System.out.println("Service Stock Sekarang : " + stockSekarang);
+            data.setStokBarang(stockSekarang - payload.getJumlahBeliReq());
+            barangRepo.save(data); 
+            System.out.println("Service Setelah Update : " + data.getStokBarang());
+            
+            BarangPayloadRes res = new BarangPayloadRes();
+            res.setHargaBarangRes(data.getHargaBarang());
+            res.setIdBarangRes(data.getIdBarang());
+            res.setNamaBarangRes(data.getNamaBarang());
+            res.setStokBarangRes(data.getStokBarang());
+            return res;
 
         } catch (Exception e) {
-            throw new Exception("Error: " + e.getMessage());
+            throw new Exception("Error NtahKenapa" + e.getMessage());
         }
-        return res;
-    }
-
-    public PenjualanPayloadRes cekJumlahBeli(int idPenjualan) throws Exception {
-        PenjualanPayloadRes res = new PenjualanPayloadRes();
-        try {
-            PenjualanEntity penjualan = penjualanRepo.findById(idPenjualan)
-                    .orElseThrow(() -> new Exception("Data Transaksi Penjualan tidak ditemukan!"));
-            res.setIdPenjualanRes(penjualan.getIdPenjualan());
-            res.setNamaPembeliRes(penjualan.getNamaPembeli());
-            res.setBarangRes(penjualan.getBarang());
-            res.setJumlahBeliRes(penjualan.getJumlahBeli());
-            res.setTanggalPenjualanRes(penjualan.getTanggalPenjualan());
-
-        } catch (Exception e) {
-            throw new Exception("Error: " + e.getMessage());
-        }
-        return res;
     }
 
     @Override
-    public List<PenjualanPayloadRes> getAllPenjualan() throws Exception {
-        try {
-            return penjualanRepo.findAll().stream().map(ent -> {
-                PenjualanPayloadRes res = new PenjualanPayloadRes();
-                res.setIdPenjualanRes(ent.getIdPenjualan());
-                res.setNamaPembeliRes(ent.getNamaPembeli());
-                res.setBarangRes(ent.getBarang());
-                res.setJumlahBeliRes(ent.getJumlahBeli());
-                res.setTanggalPenjualanRes(ent.getTanggalPenjualan());
-                return res;
-            }).toList();
-        } catch (Exception e) {
-            throw new Exception("Error: " + e.getMessage());
+    public BarangPayloadRes deleteBarang(BarangPayloadReq payload) throws Exception{
+        try{
+            System.out.println(payload.getIdBarangReq());
+            BarangEntity data = barangRepo.findById(payload.getIdBarangReq()).orElse(null);
+            System.out.println(data);
+            BarangPayloadRes res = new BarangPayloadRes();
+            res.setStatus("OK");
+            res.setIdBarangRes(data.getIdBarang());
+            res.setHargaBarangRes(data.getHargaBarang());
+            res.setNamaBarangRes(data.getNamaBarang());
+            res.setStokBarangRes(data.getStokBarang());
+            barangRepo.deleteById(payload.getIdBarangReq());
+            return res;
+        }catch(Exception e){
+            throw new Exception("Error " + e.getMessage());
         }
     }
 }

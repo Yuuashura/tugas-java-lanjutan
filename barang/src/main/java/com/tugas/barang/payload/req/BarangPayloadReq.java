@@ -3,6 +3,7 @@ package com.tugas.barang.payload.req;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BarangPayloadReq {
+
     @JsonProperty("id")
     private int idBarangReq;
     private String namaBarangReq;

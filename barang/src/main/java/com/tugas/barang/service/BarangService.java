@@ -17,9 +17,7 @@ public interface BarangService {
 
     public BarangPayloadRes cekStock(PenjualanPayloadReq payload) throws Exception;
 
-    public BarangPayloadRes cekStockByIdPenjualan(int idPenjualan) throws Exception;
+    public BarangPayloadRes updateStock(PenjualanPayloadReq payload) throws Exception;
 
-    public PenjualanPayloadRes cekJumlahBeli(int idPenjualan) throws Exception;
-
-    public List<PenjualanPayloadRes> getAllPenjualan() throws Exception;
+    public BarangPayloadRes deleteBarang(BarangPayloadReq payload) throws Exception;
 }
