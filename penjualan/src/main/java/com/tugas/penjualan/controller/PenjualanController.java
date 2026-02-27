@@ -59,7 +59,7 @@ public class PenjualanController {
         }
     }
 
-   @PostMapping("/tambah")
+   @PostMapping("/tambahPenjualan")
     public ResponseEntity<?> tambahPenjualan(@RequestBody PenjualanPayloadReq payload) {
         try {
             PenjualanPayloadRes hasil = penjualanService.addPenjualan(payload);            

@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,11 +47,12 @@ public class BarangController {
 
     // Untuk take semua barang, nanti bakal ditambahkan pageination
     @GetMapping("/getAllBarang")
-    public ResponseEntity<?> getAllBarang() {
+    public ResponseEntity<?> getAllBarang(
+        @RequestParam(defaultValue = "1") int page
+    ) {
         try {
-            List<BarangPayloadRes> results = barangService.getAllDataBarang();
-            System.out.println("Barang : " + results);
-            return new Message().success("Data Berhasil Di Ambil!", results, 200);
+            List<BarangPayloadRes> results = barangService.getAllDataBarang(page);
+            return new Message().succesPage("Data Berhasil Di Ambil!", results, 200, page);
         } catch (Exception e) {
             return new Message().error("Terjadi Error: " + e.getMessage(), 500);
         }
@@ -81,7 +82,7 @@ public class BarangController {
     }
 
     // Update Stock
-    @PostMapping("/updateStock")
+    @PutMapping("/updateStock")
     public ResponseEntity<?> updateStock(@RequestBody PenjualanPayloadReq payload) {
         try {
             BarangPayloadRes results = barangService.updateStock(payload);

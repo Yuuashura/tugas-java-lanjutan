@@ -1,8 +1,13 @@
 package com.tugas.barang.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -47,18 +52,24 @@ public class BarangServiceImpl implements BarangService {
     }
 
     @Override
-    public List<BarangPayloadRes> getAllDataBarang() throws Exception {
+    public List<BarangPayloadRes> getAllDataBarang(int page) throws Exception {
         try {
-            return barangRepo.findAll().stream().map(ent -> {
-
+            if (page < 1) {
+                page = 0;
+            }else {
+                page--;
+            }
+            Pageable perHalaman = PageRequest.of(page, 15);
+            Page<BarangEntity> halamanBarang = barangRepo.findAll(perHalaman);
+            return halamanBarang.getContent().stream().map(ent -> {
                 BarangPayloadRes res = new BarangPayloadRes();
-                res.setStatus("OK");
                 res.setIdBarangRes(ent.getIdBarang());
                 res.setNamaBarangRes(ent.getNamaBarang());
                 res.setHargaBarangRes(ent.getHargaBarang());
                 res.setStokBarangRes(ent.getStokBarang());
                 return res;
-            }).toList();
+            }).collect(Collectors.toList());
+
         } catch (Exception e) {
             throw new Exception("Error: " + e.getMessage());
         }

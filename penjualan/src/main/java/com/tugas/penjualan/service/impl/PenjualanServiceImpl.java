@@ -71,7 +71,7 @@ public class PenjualanServiceImpl implements PenjualanService {
             ent.setTotalHarga(penjualanPayloadReq.getJumlahBeliReq() * hargaBarang);
             penjualanRepository.save(ent);
 
-            Map updateStockBarang = webClient.post()
+            Map updateStockBarang = webClient.put()
             .uri("/barang/updateStock")
             .bodyValue(dataUpdate)
             .retrieve()
