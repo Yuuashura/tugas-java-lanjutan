@@ -15,16 +15,10 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-
-        Server barangServers = new Server();
-        barangServers.setUrl("http://localhost:8000");
-        barangServers.setDescription("API untuk kelola Barang"); 
-
         return new OpenAPI()
                 .info(new Info()
                 .title("API Paduka Raja Iblis Yudis Ashura")
                 .version("1.0.0")
-                .description("Endpoint Penjualan"))
-                .servers(List.of(barangServers));
+                .description("Endpoint Penjualan"));
     }
 }

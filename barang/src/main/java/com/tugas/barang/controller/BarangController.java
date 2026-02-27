@@ -11,6 +11,9 @@ import com.tugas.barang.payload.req.PenjualanPayloadReq;
 import com.tugas.barang.payload.res.BarangPayloadRes;
 import com.tugas.barang.service.BarangService;
 import com.tugas.barang.utility.Message;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,18 +59,21 @@ public class BarangController {
 
     // Cek Stock by Id Barang
     @GetMapping("/cekStock")
-    public ResponseEntity<?> cekStock(@RequestParam("idBarang") int idBarang) {
+    public ResponseEntity<?> cekStock(@RequestParam("idBarang") int idBarang, HttpServletRequest request) {
         System.out.println("Cek sisa stok untuk ID Barang: " + idBarang);
         try {
             PenjualanPayloadReq payload = new PenjualanPayloadReq();
             payload.setIdPenjualanReq(idBarang);
             BarangPayloadRes data = barangService.cekStock(payload);
+            String ipAddress = request.getRemoteAddr();
+
             Map<String, Object> results = new HashMap<>();
             results.put("idBarang", data.getIdBarangRes());
             results.put("namaBarang", data.getNamaBarangRes());
             results.put("hargaBarang", data.getHargaBarangRes());
             results.put("sisaStock", data.getStokBarangRes());
             results.put("status", data.getStatus());
+            results.put("ipAddress", ipAddress);
             return new ResponseEntity<>(results, HttpStatus.OK);
         } catch (Exception e) {
             return new Message().error("Terjadi Error: " + e.getMessage(), 500);
@@ -82,11 +88,11 @@ public class BarangController {
             return new ResponseEntity<>(results, HttpStatus.OK);
         } catch (Exception e) {
             return new Message().error("Terjadi Error: " + e.getMessage(), 500);
-        }   
+        }
     }
 
     @DeleteMapping("/deleteBarang")
-    public ResponseEntity<?> deleteBarang(@RequestBody BarangPayloadReq payload){
+    public ResponseEntity<?> deleteBarang(@RequestBody BarangPayloadReq payload) {
         try {
             BarangPayloadRes res = barangService.deleteBarang(payload);
             return new Message().success("Data Berhasil Dihapus !", res, 200);
@@ -94,6 +100,5 @@ public class BarangController {
             return new Message().error("Terjadi Error: " + e.getMessage(), 500);
         }
     }
-    
 
 }

@@ -11,6 +11,14 @@ Proyek ini adalah implementasi **Microservices Architecture** menggunakan **Java
 
 ---
 
+## 📖 Dokumentasi Swagger UI (Peta Harta Karun)
+Anda dapat menguji semua rute API secara langsung melalui antarmuka Swagger yang terintegrasi. Klik tautan sakti di bawah ini saat server sedang menyala di komputer lokal Anda:
+
+* 🛡️ **[Swagger Layanan Barang (Port 8000)](http://localhost:8000/swagger-ui/index.html)**
+* 💰 **[Swagger Layanan Penjualan (Port 8001)](http://localhost:8001/swagger-ui/index.html)**
+
+---
+
 ## 🏗️ Arsitektur Sistem
 
 Sistem ini terdiri dari dua *microservice* utama yang berjalan di *port* yang berbeda:
