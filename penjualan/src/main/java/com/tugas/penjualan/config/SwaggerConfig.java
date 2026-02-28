@@ -11,7 +11,7 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info()
+                .info(new Info() 
                 .title("API Paduka Raja Iblis Yudis Ashura")
                 .version("1.0.0")
                 .description("Endpoint Penjualan"));
