@@ -20,6 +20,26 @@
             "projectName": "penjualan",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EmailApplication<email>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.tugas.tesmail.EmailApplication",
+            "projectName": "email",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EmailApplication<email>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.tugas.email.EmailApplication",
+            "projectName": "email",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
