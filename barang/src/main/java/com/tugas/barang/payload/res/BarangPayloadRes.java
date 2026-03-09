@@ -1,6 +1,7 @@
 package com.tugas.barang.payload.res;
 
 public class BarangPayloadRes {
+    
     private int idBarangRes;
     private String namaBarangRes;
     private int hargaBarangRes;

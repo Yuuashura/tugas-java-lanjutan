@@ -22,14 +22,10 @@ public class EmailController {
     @PostMapping("/send")
     public ResponseEntity<?> sendEmail(@RequestBody EmailPayloadReq payload) {
         try {
-            // 1. Lempar JSON dari Frontend ke Service untuk dieksekusi
             EmailPayloadRes hasil = emailService.sendMail(payload);
-            
-            // 2. Bungkus hasilnya dengan utilitas Message Paduka yang elegan
             return new Message().success("Pesan gaib berhasil dikirim!", hasil, 200);
             
         } catch (Exception e) {
-            // Jika gagal (misal salah password atau email tujuan tidak ada)
             return new Message().error(e.getMessage(), 500);
         }
     }

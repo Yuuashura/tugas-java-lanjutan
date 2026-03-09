@@ -40,6 +40,16 @@
             "projectName": "email",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ProjectApplication<myproject>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.mini.project.ProjectApplication",
+            "projectName": "myproject",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
