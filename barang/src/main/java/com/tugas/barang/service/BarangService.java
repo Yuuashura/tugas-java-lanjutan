@@ -13,6 +13,8 @@ import com.tugas.barang.payload.res.PenjualanPayloadRes;
 public interface BarangService {
     public BarangPayloadRes getDataBarang(BarangPayloadReq payload) throws Exception;
 
+    public List<BarangPayloadRes> allBarang() throws Exception;
+
     public List<BarangPayloadRes> getAllDataBarang(int page) throws Exception;
 
     public BarangPayloadRes cekStock(PenjualanPayloadReq payload) throws Exception;

@@ -10,6 +10,10 @@ public class BarangPayloadReq {
     private int hargaBarangReq;
     private int stokBarangReq;
 
+    // new var
+    private Object random;
+    private int notRandom;
+
     public int getIdBarangReq() {
         return idBarangReq;
     }

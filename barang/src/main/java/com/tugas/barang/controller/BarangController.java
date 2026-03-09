@@ -45,6 +45,17 @@ public class BarangController {
         }
     }
 
+    @GetMapping("/allBarang")
+    public ResponseEntity<?> allBarang(){
+        try{
+            List<BarangPayloadRes> res = barangService.allBarang();
+            return new Message().success("Data Berhasil Di Ambil",res, 200);
+
+        }catch(Exception e){
+            return new Message().error("Terjadi Error: " + e.getMessage(), 500);
+        }
+    }
+
     // Untuk take semua barang, nanti bakal ditambahkan pageination
     @GetMapping("/getAllBarang")
     public ResponseEntity<?> getAllBarang(
